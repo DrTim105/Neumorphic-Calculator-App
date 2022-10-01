@@ -1,6 +1,8 @@
 package com.salihutimothy.neumorphiccalculatorapp;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -21,11 +23,11 @@ public class BigDecimalViewModel extends ViewModel {
     private final MutableLiveData<BigDecimal> result = new MutableLiveData<>();
     private final MutableLiveData<String> newNumber = new MutableLiveData<>();
     private final MutableLiveData<String> operation = new MutableLiveData<>();
-    private final MutableLiveData<String> op;
+//    private final MutableLiveData<String> op;
 
-    public BigDecimalViewModel(MutableLiveData<String> op) {
-        this.op = op;
-    }
+//    public BigDecimalViewModel(MutableLiveData<String> op) {
+//        this.op = op;
+//    }
 
 
     @NotNull
@@ -52,9 +54,11 @@ public class BigDecimalViewModel extends ViewModel {
         } else {
             this.newNumber.setValue(caption);
         }
+
     }
 
     public final void operandPressed(@NotNull String op) {
+
         Intrinsics.checkNotNullParameter(op, "op");
 
         try {
@@ -75,6 +79,8 @@ public class BigDecimalViewModel extends ViewModel {
 
         this.pendingOperation = op;
         this.operation.setValue(this.pendingOperation);
+
+
     }
 
     public final void negPressed() {
@@ -150,7 +156,7 @@ public class BigDecimalViewModel extends ViewModel {
                             temp = this.operand1;
                             Intrinsics.checkNotNull(temp);
 //                            var4 = temp;
-                            temp = temp.divide(value, RoundingMode.HALF_EVEN);
+                            temp = temp.divide(value, RoundingMode.UNNECESSARY);
                             Intrinsics.checkExpressionValueIsNotNull(temp, "this.divide(other, RoundingMode.HALF_EVEN)");
                         }
 
