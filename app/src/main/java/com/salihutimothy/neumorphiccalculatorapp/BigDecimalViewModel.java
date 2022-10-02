@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import kotlin.jvm.internal.Intrinsics;
 
@@ -32,25 +31,25 @@ public class BigDecimalViewModel extends ViewModel {
 
     @NotNull
     public final LiveData<String> getStringResult() {
-        LiveData<String> stringResult = Transformations.map((LiveData<BigDecimal>)this.result, BigDecimal::toString);
+        LiveData<String> stringResult = Transformations.map(this.result, BigDecimal::toString);
         Intrinsics.checkNotNullExpressionValue(stringResult, "Transformations.map(result) { it.toString()}");
         return stringResult;
     }
 
     @NotNull
     public final LiveData<String> getStringNewNumber() {
-        return (LiveData<String>)this.newNumber;
+        return this.newNumber;
     }
 
     @NotNull
     public final LiveData<String> getStringOperation() {
-        return (LiveData<String>)this.operation;
+        return this.operation;
     }
 
     public final void digitPressed(@NotNull String caption) {
         Intrinsics.checkNotNullParameter(caption, "caption");
         if (this.newNumber.getValue() != null) {
-            this.newNumber.setValue(Intrinsics.stringPlus((String)this.newNumber.getValue(), caption));
+            this.newNumber.setValue(Intrinsics.stringPlus(this.newNumber.getValue(), caption));
         } else {
             this.newNumber.setValue(caption);
         }
@@ -59,10 +58,12 @@ public class BigDecimalViewModel extends ViewModel {
 
     public final void operandPressed(@NotNull String op) {
 
+        Log.d("BigDecimalViewModel", "multiplication algorithm: operand " + op);
+
         Intrinsics.checkNotNullParameter(op, "op");
 
         try {
-            String val = (String)this.newNumber.getValue();
+            String val = this.newNumber.getValue();
             BigDecimal value;
             if (val != null) {
                 value = new BigDecimal(val);
@@ -84,9 +85,9 @@ public class BigDecimalViewModel extends ViewModel {
     }
 
     public final void negPressed() {
-        String value = (String)this.newNumber.getValue();
+        String value = this.newNumber.getValue();
         if (value != null) {
-            if (((CharSequence)value).length() != 0) {
+            if (((CharSequence) value).length() != 0) {
                 try {
                     BigDecimal doubleValue = new BigDecimal(value);
                     BigDecimal negVal = BigDecimal.valueOf(-1L);
@@ -106,9 +107,10 @@ public class BigDecimalViewModel extends ViewModel {
     }
 
     public final void allClearPressed() {
-        this.newNumber.setValue("") ;
+        this.newNumber.setValue("");
         this.operation.setValue("");
-        this.operand1 = null;
+        this.pendingOperation = "";
+        operand1 = null;
         this.result.setValue(BigDecimal.ZERO);
     }
 
@@ -116,67 +118,61 @@ public class BigDecimalViewModel extends ViewModel {
         if (this.operand1 == null) {
             this.operand1 = value;
         } else {
-//            if (Intrinsics.areEqual(this.pendingOperation, "=")) {
-                if (this.pendingOperation.equals("=")) {
+            if (this.pendingOperation.equals("=")) {
                 this.pendingOperation = operation;
             }
 
             String pendOp = this.pendingOperation;
+
             BigDecimal temp;
             BigDecimal var4;
-            switch(pendOp.hashCode()) {
-                case 42:
-                    if (pendOp.equals("*")) {
-                        temp = this.operand1;
-                        Intrinsics.checkNotNull(temp);
+            switch (pendOp) {
+                case "x":
+                    temp = this.operand1;
+                    Intrinsics.checkNotNull(temp);
 //                        var4 = temp;
-                        temp = temp.multiply(value);
-                        Intrinsics.checkExpressionValueIsNotNull(temp, "this.multiply(other)");
-                        this.operand1 = temp;
-                    }
+                    temp = temp.multiply(value);
+                    Intrinsics.checkExpressionValueIsNotNull(temp, "this.multiply(other)");
+                    this.operand1 = temp;
                     break;
-                case 43:
-                    if (pendOp.equals("+")) {
-                        temp = this.operand1;
-                        Intrinsics.checkNotNull(temp);
+                case "+":
+                    temp = this.operand1;
+                    Intrinsics.checkNotNull(temp);
 //                        var4 = temp;
-                        temp = temp.add(value);
-                        Intrinsics.checkExpressionValueIsNotNull(temp, "this.add(other)");
-                        this.operand1 = temp;
-                    }
+                    temp = temp.add(value);
+                    Intrinsics.checkExpressionValueIsNotNull(temp, "this.add(other)");
+                    this.operand1 = temp;
                     break;
-                case 45:
-                    if (pendOp.equals("-")) {
-                        temp = this.operand1;
-                        Intrinsics.checkNotNull(temp);
+                case "-":
+                    temp = this.operand1;
+                    Intrinsics.checkNotNull(temp);
 //                        var4 = temp;
-                        temp = temp.subtract(value);
-                        Intrinsics.checkExpressionValueIsNotNull(temp, "this.subtract(other)");
-                        this.operand1 = temp;
-                    }
+                    temp = temp.subtract(value);
+                    Intrinsics.checkExpressionValueIsNotNull(temp, "this.subtract(other)");
+                    this.operand1 = temp;
                     break;
-                case 47:
-                    if (pendOp.equals("/")) {
-                        if (Intrinsics.areEqual(value, BigDecimal.valueOf(0.0D))) {
-                            temp = BigDecimal.valueOf(Double.NaN);
-                        } else {
-                            Double dividend = this.operand1.doubleValue();
-                            Double divisor = value.doubleValue();
-                            Intrinsics.checkNotNull(dividend);
-                            Intrinsics.checkNotNull(divisor);
+                case "÷":
+                    if (Intrinsics.areEqual(value, BigDecimal.valueOf(0))) {
+                        Log.d("BigDecimalViewModel", "attempt to divide over zero");
+                        temp = BigDecimal.valueOf(Double.NaN);
+                    } else {
+                        Double dividend = this.operand1.doubleValue();
+                        Double divisor = value.doubleValue();
+                        Intrinsics.checkNotNull(dividend);
+                        Intrinsics.checkNotNull(divisor);
 //                            var4 = temp;
-                            temp = BigDecimal.valueOf(dividend/divisor);
-//                                    temp.divide(value, 0, RoundingMode.HALF_EVEN);
-                            Intrinsics.checkExpressionValueIsNotNull(temp, "BigDecimal.valueOf(dividend/divisor)");
+                        double quotient = dividend / divisor;
+                        if ((int) quotient == quotient) {
+                            temp = BigDecimal.valueOf((int) quotient);
+                        } else {
+                            temp = BigDecimal.valueOf(quotient);
                         }
-
-                        this.operand1 = temp;
+                        Intrinsics.checkExpressionValueIsNotNull(temp, "BigDecimal.valueOf(dividend/divisor)");
                     }
+                    this.operand1 = temp;
                     break;
-                case 61:
-                    if (pendOp.equals("=")) {
-                        this.operand1 = value;
-                    }
+                case "=":
+                    this.operand1 = value;
             }
         }
 
