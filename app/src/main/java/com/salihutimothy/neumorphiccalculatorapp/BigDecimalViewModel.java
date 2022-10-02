@@ -105,6 +105,13 @@ public class BigDecimalViewModel extends ViewModel {
         this.newNumber.setValue("-");
     }
 
+    public final void allClearPressed() {
+        this.newNumber.setValue("") ;
+        this.operation.setValue("");
+        this.operand1 = null;
+        this.result.setValue(BigDecimal.ZERO);
+    }
+
     private void performOperation(BigDecimal value, String operation) {
         if (this.operand1 == null) {
             this.operand1 = value;
@@ -153,11 +160,14 @@ public class BigDecimalViewModel extends ViewModel {
                         if (Intrinsics.areEqual(value, BigDecimal.valueOf(0.0D))) {
                             temp = BigDecimal.valueOf(Double.NaN);
                         } else {
-                            temp = this.operand1;
-                            Intrinsics.checkNotNull(temp);
+                            Double dividend = this.operand1.doubleValue();
+                            Double divisor = value.doubleValue();
+                            Intrinsics.checkNotNull(dividend);
+                            Intrinsics.checkNotNull(divisor);
 //                            var4 = temp;
-                            temp = temp.divide(value, RoundingMode.UNNECESSARY);
-                            Intrinsics.checkExpressionValueIsNotNull(temp, "this.divide(other, RoundingMode.HALF_EVEN)");
+                            temp = BigDecimal.valueOf(dividend/divisor);
+//                                    temp.divide(value, 0, RoundingMode.HALF_EVEN);
+                            Intrinsics.checkExpressionValueIsNotNull(temp, "BigDecimal.valueOf(dividend/divisor)");
                         }
 
                         this.operand1 = temp;
