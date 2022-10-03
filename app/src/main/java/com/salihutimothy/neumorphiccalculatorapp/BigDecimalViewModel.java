@@ -1,8 +1,5 @@
 package com.salihutimothy.neumorphiccalculatorapp;
 
-
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -22,11 +19,6 @@ public class BigDecimalViewModel extends ViewModel {
     private final MutableLiveData<String> operation = new MutableLiveData<>();
     private BigDecimal operand1;
     private String pendingOperation = "=";
-//    private final MutableLiveData<String> op;
-
-//    public BigDecimalViewModel(MutableLiveData<String> op) {
-//        this.op = op;
-//    }
 
     @NotNull
     public final LiveData<String> getStringResult() {
@@ -52,13 +44,9 @@ public class BigDecimalViewModel extends ViewModel {
         } else {
             this.newNumber.setValue(caption);
         }
-
     }
 
     public final void operandPressed(@NotNull String op) {
-
-        Log.d("BigDecimalViewModel", "multiplication algorithm: operand " + op);
-
         Intrinsics.checkNotNullParameter(op, "op");
 
         try {
@@ -79,8 +67,6 @@ public class BigDecimalViewModel extends ViewModel {
 
         this.pendingOperation = op;
         this.operation.setValue(this.pendingOperation);
-
-
     }
 
     public final void negPressed() {
@@ -91,7 +77,6 @@ public class BigDecimalViewModel extends ViewModel {
                     BigDecimal doubleValue = new BigDecimal(value);
                     BigDecimal negVal = BigDecimal.valueOf(-1L);
                     Intrinsics.checkNotNullExpressionValue(negVal, "BigDecimal.valueOf(-1)");
-//                    BigDecimal var4 = var10000;
                     BigDecimal val = doubleValue.multiply(negVal);
                     Intrinsics.checkExpressionValueIsNotNull(val, "this.multiply(other)");
                     doubleValue = val;
@@ -109,9 +94,6 @@ public class BigDecimalViewModel extends ViewModel {
         String value = this.newNumber.getValue();
         BigDecimal temp;
 
-        Log.d("BigDecimalViewModel", " value:" + value);
-
-
         if (value == null) {
             this.operandPressed("%");
         } else {
@@ -128,7 +110,6 @@ public class BigDecimalViewModel extends ViewModel {
                 this.operandPressed("%");
             }
         }
-        Log.d("BigDecimalViewModel", " value: " + value);
     }
 
     public final void allClearPressed() {
@@ -159,7 +140,6 @@ public class BigDecimalViewModel extends ViewModel {
                 case "x":
                     temp = this.operand1;
                     Intrinsics.checkNotNull(temp);
-//                        var4 = temp;
                     temp = temp.multiply(value);
                     Intrinsics.checkExpressionValueIsNotNull(temp, "this.multiply(other)");
                     this.operand1 = temp;
@@ -167,7 +147,6 @@ public class BigDecimalViewModel extends ViewModel {
                 case "+":
                     temp = this.operand1;
                     Intrinsics.checkNotNull(temp);
-//                        var4 = temp;
                     temp = temp.add(value);
                     Intrinsics.checkExpressionValueIsNotNull(temp, "this.add(other)");
                     this.operand1 = temp;
@@ -175,7 +154,6 @@ public class BigDecimalViewModel extends ViewModel {
                 case "-":
                     temp = this.operand1;
                     Intrinsics.checkNotNull(temp);
-//                        var4 = temp;
                     temp = temp.subtract(value);
                     Intrinsics.checkExpressionValueIsNotNull(temp, "this.subtract(other)");
                     this.operand1 = temp;
@@ -192,17 +170,13 @@ public class BigDecimalViewModel extends ViewModel {
                     break;
                 case "÷":
                     if (Intrinsics.areEqual(value, BigDecimal.valueOf(0))) {
-                        Log.d("BigDecimalViewModel", "attempt to divide over zero");
                         temp = BigDecimal.valueOf(-1.0E+9); // value to represent error
                         allClearPressed();
-                        Log.d("BigDecimalViewModel", "temp value: " + temp);
-
                     } else {
                         Double dividend = this.operand1.doubleValue();
                         Double divisor = value.doubleValue();
                         Intrinsics.checkNotNull(dividend);
                         Intrinsics.checkNotNull(divisor);
-//                            var4 = temp;
                         double quotient = dividend / divisor;
                         if ((int) quotient == quotient) {
                             temp = BigDecimal.valueOf((int) quotient);
@@ -212,8 +186,6 @@ public class BigDecimalViewModel extends ViewModel {
                         Intrinsics.checkExpressionValueIsNotNull(temp, "BigDecimal.valueOf(dividend/divisor)");
                     }
                     this.operand1 = temp;
-                    Log.d("BigDecimalViewModel", "operand value: " + operand1);
-
                     break;
                 case "=":
                     this.operand1 = value;
