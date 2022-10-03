@@ -16,5 +16,5 @@
     <color name="dark_neumorph">#A3B1C6</color>
     <color name="background_neumorph">#E0E5EC</color>
     <color name="textColor">#475864</color>
-    <color name="textColorPressed">@color/purple_700</color>
+    <color name="textColorPressed">@android:color/holo_red_light</color>
 </resources>
