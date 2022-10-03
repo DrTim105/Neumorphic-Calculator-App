@@ -109,19 +109,26 @@ public class BigDecimalViewModel extends ViewModel {
         String value = this.newNumber.getValue();
         BigDecimal temp;
 
-        if (value != null && !value.equals("") || operand1 == null) {
+        Log.d("BigDecimalViewModel", " value:" + value);
+
+
+        if (value == null) {
+            this.operandPressed("%");
+        } else {
+            if (!value.equals("") & operand1 == null) {
                 BigDecimal val = new BigDecimal(value);
                 double dividend = val.doubleValue();
                 Intrinsics.checkNotNull(dividend);
                 double quotient = dividend / 100;
                 temp = BigDecimal.valueOf(quotient);
                 this.operand1 = temp;
-        } else {
-            this.operandPressed("%");
+                this.result.setValue(this.operand1);
+                this.newNumber.setValue("");
+            } else {
+                this.operandPressed("%");
+            }
         }
-        this.result.setValue(this.operand1);
-        this.newNumber.setValue("");
-
+        Log.d("BigDecimalViewModel", " value: " + value);
     }
 
     public final void allClearPressed() {
