@@ -8,13 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
-
-
-    <color name="neumorph">#ebeff3</color>
-    <color name="light_neumorph">#ebeff3</color>
-    <color name="dark_neumorph">#A3B1C6</color>
-    <color name="background_neumorph">#E0E5EC</color>
-    <color name="textColor">#475864</color>
+    <color name="neumorph">#212121</color>
+    <color name="button_light_neumorph">#212121</color>
+    <color name="button_dark_neumorph">#0b0b0b</color>
+    <color name="button_background_neumorph">#222222 </color>
+    <color name="card_light_neumorph">#383839</color>
+    <color name="card_dark_neumorph">#0b0b0b</color>
+    <color name="card_background_neumorph">#303030</color>
+    <color name="card_stroke_neumorph">#222222</color>
+    <color name="textColor">@color/white</color>
     <color name="textColorPressed">@android:color/holo_red_light</color>
+    <color name="resultColor">#FFFFFFFF</color>
+    <color name="newNumberColor">#939393</color>
 </resources>

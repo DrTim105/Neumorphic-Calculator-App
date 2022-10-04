@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
-
 import soup.neumorphism.NeumorphButton;
 
 public class MainActivity extends AppCompatActivity {
