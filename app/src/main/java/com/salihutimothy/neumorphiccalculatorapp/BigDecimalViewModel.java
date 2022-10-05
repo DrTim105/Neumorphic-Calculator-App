@@ -1,5 +1,7 @@
 package com.salihutimothy.neumorphiccalculatorapp;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -51,6 +53,8 @@ public class BigDecimalViewModel extends ViewModel {
 
         try {
             String val = this.newNumber.getValue();
+            Log.d("test", "operand: " + op + "value: " + val);
+
             BigDecimal value;
             if (val != null) {
                 value = new BigDecimal(val);
@@ -97,7 +101,7 @@ public class BigDecimalViewModel extends ViewModel {
         if (value == null) {
             this.operandPressed("%");
         } else {
-            if (!value.equals("") & operand1 == null) {
+            if (!value.equals("") & !value.equals("-") & operand1 == null) {
                 BigDecimal val = new BigDecimal(value);
                 double dividend = val.doubleValue();
                 Intrinsics.checkNotNull(dividend);
@@ -121,6 +125,7 @@ public class BigDecimalViewModel extends ViewModel {
     }
 
     private void performOperation(BigDecimal value, String operation) {
+        Log.d("test", "operand: " + operation + "value: " + value);
         if (this.operand1 == null) {
             this.operand1 = value;
         } else {
@@ -135,7 +140,6 @@ public class BigDecimalViewModel extends ViewModel {
             String pendOp = this.pendingOperation;
 
             BigDecimal temp;
-            BigDecimal var4;
             switch (pendOp) {
                 case "x":
                     temp = this.operand1;
