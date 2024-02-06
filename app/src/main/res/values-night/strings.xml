@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Neu Calculator</string>
     <string name="x">x</string>
     <string name="ac">AC</string>
-    <string name="percent">%</string>
     <string name="divide">÷</string>
     <string name="neg">NEG</string>
     <string name="nine">9</string>
