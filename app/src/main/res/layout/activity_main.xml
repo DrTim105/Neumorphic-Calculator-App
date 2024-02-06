@@ -91,7 +91,7 @@
         style="@style/Widget.Neumorph.Button"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:text="@string/x"
+        android:text="@string/multiply"
         android:textAllCaps="false"
         android:textSize="25sp"
         android:textStyle="bold"

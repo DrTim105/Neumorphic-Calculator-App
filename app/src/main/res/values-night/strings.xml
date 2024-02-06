@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="x">x</string>
+    <string name="multiply">x</string>
     <string name="ac">AC</string>
     <string name="divide">÷</string>
     <string name="neg">NEG</string>

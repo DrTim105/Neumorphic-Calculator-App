@@ -141,7 +141,7 @@ public class BigDecimalViewModel extends ViewModel {
 
             BigDecimal temp;
             switch (pendOp) {
-                case "x":
+                case "multiply":
                     temp = this.operand1;
                     Intrinsics.checkNotNull(temp);
                     temp = temp.multiply(value);
